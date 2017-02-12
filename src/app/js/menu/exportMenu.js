@@ -86,34 +86,38 @@ module.exports = function (graph) {
 	}
 
 	function inlineVowlStyles() {
-		setStyleSensitively(".text", [{name: "font-family", value: "Helvetica, Arial, sans-serif"}, {name: "font-size", value: "12px"}]);
-		setStyleSensitively(".subtext", [{name: "font-size", value: "9px"}]);
-		setStyleSensitively(".text.instance-count", [{name: "fill", value: "#666"}]);
-		setStyleSensitively(".external + text .instance-count", [{name: "fill", value: "#aaa"}]);
-		setStyleSensitively(".cardinality", [{name: "font-size", value: "10px"}]);
-		setStyleSensitively(".text, .embedded", [{name: "pointer-events", value: "none"}]);
-		setStyleSensitively(".class, .object, .disjoint, .objectproperty, .disjointwith, .equivalentproperty, .transitiveproperty, .functionalproperty, .inversefunctionalproperty, .symmetricproperty, .allvaluesfromproperty, .somevaluesfromproperty", [{name: "fill", value: "#acf"}]);
-		setStyleSensitively(".label .datatype, .datatypeproperty", [{name: "fill", value: "#9c6"}]);
-		setStyleSensitively(".rdf, .rdfproperty", [{name: "fill", value: "#c9c"}]);
-		setStyleSensitively(".literal, .node .datatype", [{name: "fill", value: "#fc3"}]);
-		setStyleSensitively(".deprecated, .deprecatedproperty", [{name: "fill", value: "#ccc"}]);
-		setStyleSensitively(".external, .externalproperty", [{name: "fill", value: "#36c"}]);
-		setStyleSensitively("path, .nofill", [{name: "fill", value: "none"}]);
-		setStyleSensitively("marker path", [{name: "fill", value: "#000"}]);
-		setStyleSensitively(".class, path, line, .fineline", [{name: "stroke", value: "#000"}]);
-		setStyleSensitively(".white, .subclass, .subclassproperty, .external + text", [{name: "fill", value: "#fff"}]);
-		setStyleSensitively(".class.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, circle.pin, .filled.hovered, .filled.focused", [{name: "fill", value: "#f00"}, {name: "cursor", value: "pointer"}]);
-		setStyleSensitively(".focused, path.hovered", [{name: "stroke", value: "#f00"}]);
-		setStyleSensitively(".indirect-highlighting, .feature:hover", [{name: "fill", value: "#f90"}]);
-		setStyleSensitively(".values-from", [{name: "stroke", value: "#69c"}]);
-		setStyleSensitively(".symbol, .values-from.filled", [{name: "fill", value: "#69c"}]);
-		setStyleSensitively(".class, path, line", [{name: "stroke-width", value: "2"}]);
-		setStyleSensitively(".fineline", [{name: "stroke-width", value: "1"}]);
-		setStyleSensitively(".dashed, .anonymous", [{name: "stroke-dasharray", value: "8"}]);
-		setStyleSensitively(".dotted", [{name: "stroke-dasharray", value: "3"}]);
-		setStyleSensitively("rect.focused, circle.focused", [{name: "stroke-width", value: "4px"}]);
-		setStyleSensitively(".nostroke", [{name: "stroke", value: "none"}]);
-		setStyleSensitively("marker path", [{name: "stroke-dasharray", value: "100"}]);
+		setStyleSensitively(".text", [{name:"font-family", value:"Helvetica, Arial, sans-serif"}, {name:"font-size", value:"12px"}]);
+		setStyleSensitively(".subtext", [{name:"font-size", value:"9px"}]);
+		setStyleSensitively(".text.instance-count", [{name:"fill", value:"#666"}]);
+		setStyleSensitively(".external + text .instance-count", [{name:"fill", value:"#aaa"}]);
+		setStyleSensitively(".cardinality", [{name:"font-size", value:"10px"}]);
+		setStyleSensitively(".text, .embedded", [{name:"pointer-events", value:"none"}]);
+		setStyleSensitively(".class, .object, .disjoint, .objectproperty, .disjointwith, .equivalentproperty, .transitiveproperty, .functionalproperty, .inversefunctionalproperty, .symmetricproperty, .allvaluesfromproperty, .somevaluesfromproperty", [{name:"fill", value:"#acf"}]);
+		setStyleSensitively(".namedindividual", [{name:"fill", value:"#9c6"}]);
+		setStyleSensitively(".label .datatype, .datatypeproperty", [{name:"fill", value:"#9c6"}]);
+		setStyleSensitively(".rdf, .rdfproperty", [{name:"fill", value:"#c9c"}]);
+		setStyleSensitively(".literal, .node .datatype", [{name:"fill", value:"#fc3"}]);
+		setStyleSensitively(".deprecated, .deprecatedproperty", [{name:"fill", value:"#ccc"}]);
+		setStyleSensitively(".external, .externalproperty", [{name:"fill", value:"#36c"}]);
+		setStyleSensitively("path, .nofill", [{name:"fill", value:"none"}]);
+		setStyleSensitively("marker path", [{name:"fill", value:"#000"}]);
+		setStyleSensitively(".class, path, line, .fineline", [{name:"stroke", value:"#000"}]);
+		setStyleSensitively(".white, .subclass, .subclassproperty, .external + text", [{name:"fill", value:"#fff"}]);
+		setStyleSensitively(".class.hovered, namedindividual.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, .filled.hovered, .filled.focused, .values-from.filled.hovered", [{name:"fill", value:"#f00 !important"}, {name:"cursor", value:"pointer"}]);
+		setStyleSensitively(".feature", [{name:"fill", value:"#f00"}, {name:"cursor", value:"pointer"}]);
+		setStyleSensitively(".searchResultA", [{name:"fill", value:"none"}, {name:"stroke-width", value:"5"}, {name:"stroke", value:"#f00"}, {name:"-webkit-animation-name", value:"pulseAnimation"}, {name:"-moz-animation-name", value:"pulseAnimation"}, {name:"-o-animation-name", value:"pulseAnimation"}, {name:"animation-name", value:"pulseAnimation"}, {name:"-webkit-animation-duration", value:"0.8s"}, {name:"-moz-animation-duration", value:"0.8s"}, {name:"-o-animation-duration", value:"0.8s"}, {name:"animation-duration", value:"0.8s"}, {name:"-webkit-transform", value:"translateZ(0)"}, {name:"-webkit-animation-iteration-count", value:"3"}, {name:"-moz-animation-iteration-count", value:"3"}, {name:"-o-animation-iteration-count", value:"3"}, {name:"animation-iteration-count", value:"3"}, {name:"-webkit-animation-timing-function", value:"linear"}, {name:"-moz-animation-timing-function", value:"linear"}, {name:"-o-animation-timing-function", value:"linear"}, {name:"animation-timing-function", value:"linear"}]);
+		setStyleSensitively(".searchResultB", [{name:"fill", value:"none"}, {name:"stroke-width", value:"5"}, {name:"stroke", value:"#f00"}]);
+		setStyleSensitively(".focused, path.hovered", [{name:"stroke", value:"#f00 !important"}]);
+		setStyleSensitively(".indirect-highlighting, .feature:hover", [{name:"fill", value:"#f90"}, {name:"cursor", value:"pointer"}]);
+		setStyleSensitively(".values-from", [{name:"stroke", value:"#69c"}]);
+		setStyleSensitively(".symbol, .values-from.filled", [{name:"fill", value:"#69c"}]);
+		setStyleSensitively(".class, path, line", [{name:"stroke-width", value:"2"}]);
+		setStyleSensitively(".fineline", [{name:"stroke-width", value:"1"}]);
+		setStyleSensitively(".dashed, .anonymous", [{name:"stroke-dasharray", value:"8"}]);
+		setStyleSensitively(".dotted", [{name:"stroke-dasharray", value:"3"}]);
+		setStyleSensitively("rect.focused, circle.focused", [{name:"stroke-width", value:"4px"}]);
+		setStyleSensitively(".nostroke", [{name:"stroke", value:"none"}]);
+		setStyleSensitively("marker path", [{name:"stroke-dasharray", value:"100"}]);
 	}
 
 	function setStyleSensitively(selector, styles) {
@@ -149,7 +153,7 @@ module.exports = function (graph) {
 	}
 
 	function removeVowlInlineStyles() {
-		d3.selectAll(".text, .subtext, .text.instance-count, .external + text .instance-count, .cardinality, .text, .embedded, .class, .object, .disjoint, .objectproperty, .disjointwith, .equivalentproperty, .transitiveproperty, .functionalproperty, .inversefunctionalproperty, .symmetricproperty, .allvaluesfromproperty, .somevaluesfromproperty, .label .datatype, .datatypeproperty, .rdf, .rdfproperty, .literal, .node .datatype, .deprecated, .deprecatedproperty, .external, .externalproperty, path, .nofill, .symbol, .values-from.filled, marker path, .class, path, line, .fineline, .white, .subclass, .subclassproperty, .external + text, .class.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, circle.pin, .filled.hovered, .filled.focused, .focused, path.hovered, .indirect-highlighting, .feature:hover, .values-from, .class, path, line, .fineline, .dashed, .anonymous, .dotted, rect.focused, circle.focused, .nostroke, marker path")
+		d3.selectAll(".text, .subtext, .text.instance-count, .external + text .instance-count, .cardinality, .text, .embedded, .class, .object, .disjoint, .objectproperty, .disjointwith, .equivalentproperty, .transitiveproperty, .functionalproperty, .inversefunctionalproperty, .symmetricproperty, .allvaluesfromproperty, .somevaluesfromproperty, .namedindividual, .label .datatype, .datatypeproperty, .rdf, .rdfproperty, .literal, .node .datatype, .deprecated, .deprecatedproperty, .external, .externalproperty, path, .nofill, marker path, .class, path, line, .fineline, .white, .subclass, .subclassproperty, .external + text, .class.hovered, namedindividual.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, .filled.hovered, .filled.focused, .values-from.filled.hovered, .feature, .searchResultA, .searchResultB, .focused, path.hovered, .indirect-highlighting, .feature:hover, .values-from, .symbol, .values-from.filled, .class, path, line, .fineline, .dashed, .anonymous, .dotted, rect.focused, circle.focused, .nostroke, marker path")
 			.each(function () {
 				var element = d3.select(this);
 
