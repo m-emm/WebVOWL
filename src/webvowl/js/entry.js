@@ -24,6 +24,7 @@ webvowl.modules.emptyLiteralFilter = require("./modules/emptyLiteralFilter");
 webvowl.modules.nodeDegreeFilter = require("./modules/nodeDegreeFilter");
 webvowl.modules.nodeScalingSwitch = require("./modules/nodeScalingSwitch");
 webvowl.modules.objectPropertyFilter = require("./modules/objectPropertyFilter");
+webvowl.modules.individualsFilter = require("./modules/individualsFilter");
 webvowl.modules.pickAndPin = require("./modules/pickAndPin");
 webvowl.modules.selectionDetailsDisplayer = require("./modules/selectionDetailsDisplayer");
 webvowl.modules.setOperatorFilter = require("./modules/setOperatorFilter");

@@ -33,5 +33,10 @@ module.exports = {
 	],
 	externals: {
 		"d3": "d3"
+	},
+	resolve : {
+		alias : {
+			xmlhttprequest : __dirname + '/src/app/js/rdflibutil/xmlhttprequest_shim.js'					            
+		}
 	}
 };

@@ -25,6 +25,37 @@ module.exports = (function () {
 
 		return circle;
 	};
+	
+	
+	/**
+	 * Append a polygonal class node with the passed attributes.
+	 * @param parent the parent element to which the polygon will be appended
+	 * @param radius
+	 * @param [cssClasses] an array of additional css classes
+	 * @param [tooltip]
+	 * @param [backgroundColor]
+	 * @returns {*}
+	 */
+	tools.appendPolygonClass = function (parent, radius, numEdges, cssClasses, tooltip, backgroundColor) {
+		var points = [];		
+		for(var i=0;i<numEdges;i++) {
+			points.push([Math.cos(Math.PI*2/numEdges*i) * radius ,Math.sin(Math.PI*2/numEdges*i) * radius ]);
+		}
+		var pointsText = '';
+		points.forEach(function(element) {
+			pointsText = pointsText.concat(String(Math.round(element[0])),',', String(Math.round(element[1])),' ');
+		});
+		
+		var polygon = parent.append("polygon")
+			.classed("class", true)
+			.attr("points", pointsText);
+
+		addCssClasses(polygon, cssClasses);
+		addToolTip(polygon, tooltip);
+		addBackgroundColor(polygon, backgroundColor);
+
+		return polygon;
+	};
 
 	function addCssClasses(element, cssClasses) {
 		if (cssClasses instanceof Array) {

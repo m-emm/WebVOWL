@@ -305,6 +305,11 @@ module.exports = function (graphContainerSelector) {
 		var linkPartDistance = getVisibleLinkDistance(link) / 2;
 		linkPartDistance += linkPart.domain().actualRadius();
 		linkPartDistance += linkPart.range().actualRadius();
+		
+		 if (link.label().property().type() == "rdfs:type")  {
+			 linkPartDistance *= 0.3; 
+		 }
+		
 		return linkPartDistance;
 	}
 
@@ -701,6 +706,20 @@ module.exports = function (graphContainerSelector) {
 
 		force.nodes(d3Nodes)
 			.links(d3Links);
+	
+//		 force.linkDistance(function(link) {
+//			 
+//			 if (link.link().label().property().type() == "rdfs:type") {
+//				 return 
+//			 }
+//			 
+//		       return link.graph === 0 ? height/2 : height/4;
+//		    });
+		
+//		 force.linkStrength(function(link) {
+//		        if (link.link().label().property().type() == "rdfs:type")  return 10;
+//		        return 1;
+//		    });
 	}
 
 	/**

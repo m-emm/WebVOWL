@@ -13,6 +13,7 @@ properties.push(require("./implementations/OwlTransitiveProperty"));
 properties.push(require("./implementations/RdfProperty"));
 properties.push(require("./implementations/RdfsSubClassOf"));
 properties.push(require("./implementations/SetOperatorProperty"));
+properties.push(require("./implementations/RdfsType"));
 
 var map = d3.map(properties, function (Prototype) {
 	return new Prototype().type();

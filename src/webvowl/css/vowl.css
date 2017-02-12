@@ -27,6 +27,12 @@
 .class, .object, .disjoint, .objectproperty, .disjointwith, .equivalentproperty, .transitiveproperty, .functionalproperty, .inversefunctionalproperty, .symmetricproperty, .allvaluesfromproperty, .somevaluesfromproperty {
     fill: #acf;
 }
+
+.namedindividual {
+    fill: #9c6;
+}
+
+
 .label .datatype, .datatypeproperty {
     fill: #9c6;
 }
@@ -54,7 +60,7 @@ marker path {
 .white, .subclass, .subclassproperty, .external + text {
     fill: #fff;
 }
-.class.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, .filled.hovered, .filled.focused, .values-from.filled.hovered {
+.class.hovered, namedindividual.hovered, .property.hovered, .cardinality.hovered, .cardinality.focused, .filled.hovered, .filled.focused, .values-from.filled.hovered {
     fill: #f00 !important;
     cursor: pointer;
 }

@@ -31,7 +31,7 @@ module.exports = function (graph) {
 	 * @param setOperatorFilter filter for all set operators with properties
 	 * @param nodeDegreeFilter filters nodes by their degree
 	 */
-	filterMenu.setup = function (datatypeFilter, objectPropertyFilter, subclassFilter, disjointFilter, setOperatorFilter, nodeDegreeFilter) {
+	filterMenu.setup = function (datatypeFilter, objectPropertyFilter, individualsFilter,subclassFilter, disjointFilter, setOperatorFilter, nodeDegreeFilter) {
 		var menuEntry= d3.select("#filterOption");
 		menuEntry.on("mouseover",function(){
 			var searchMenu=graph.options().searchMenu();
@@ -43,6 +43,7 @@ module.exports = function (graph) {
 
 		addFilterItem(datatypeFilter, "datatype", "Datatype properties", "#datatypeFilteringOption");
 		addFilterItem(objectPropertyFilter, "objectProperty", "Object properties", "#objectPropertyFilteringOption");
+		addFilterItem(individualsFilter, "individuals", "Individuals", "#individualsFilteringOption");
 		addFilterItem(subclassFilter, "subclass", "Solitary subclasses", "#subclassFilteringOption");
 		addFilterItem(disjointFilter, "disjoint", "Class disjointness", "#disjointFilteringOption");
 		addFilterItem(setOperatorFilter, "setoperator", "Set operators", "#setOperatorFilteringOption");

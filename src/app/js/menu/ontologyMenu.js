@@ -15,15 +15,17 @@ module.exports = function (graph) {
 		emptyGraph=false,
 		fileToLoad,
 		cachedConversions = {},
-		loadOntologyFromText;
+		loadOntologyFromText,
+		loadOntologyFromRdfText;
 
 
 	String.prototype.beginsWith = function (string) {
 		return(this.indexOf(string) === 0);
 	};
 
-	ontologyMenu.setup = function (_loadOntologyFromText) {
+	ontologyMenu.setup = function (_loadOntologyFromText,_loadOntologyFromRdfText) {
 		loadOntologyFromText = _loadOntologyFromText;
+		loadOntologyFromRdfText = _loadOntologyFromRdfText;
 
 		var menuEntry= d3.select("#select");
 		menuEntry.on("mouseover",function(){
@@ -400,6 +402,9 @@ module.exports = function (graph) {
 		if (filename.match(/\.json$/)) {
 			displayLoadingIndicators();
 			loadFromJson(selectedFile, filename);
+		} else if(filename.match(/\.ttl$/)) {
+			displayLoadingIndicators();
+			loadFromRdf(selectedFile, filename);
 		} else {
 			loadFromOntology(selectedFile, filename,true);
 		}
@@ -411,6 +416,20 @@ module.exports = function (graph) {
 		reader.onload = function () {
 			displayLoadingIndicators();
 			loadOntologyFromTextAndTrimFilename(reader.result, filename);
+			setLoadingStatus(true);
+			if (emptyGraph===true){
+				ontologyMenu.emptyGraphError();
+			}
+			hideLoadingInformations();
+		};
+	}
+	
+	function loadFromRdf(file, filename) {
+		var reader = new FileReader();
+		reader.readAsText(file);
+		reader.onload = function () {
+			displayLoadingIndicators();
+			loadOntologyFromRdfTextAndTrimFilename(reader.result, filename);
 			setLoadingStatus(true);
 			if (emptyGraph===true){
 				ontologyMenu.emptyGraphError();
@@ -456,6 +475,11 @@ module.exports = function (graph) {
 	function loadOntologyFromTextAndTrimFilename(text, filename) {
 		var trimmedFilename = filename.split(".")[0];
 		loadOntologyFromText(text, trimmedFilename);
+	}
+	
+	function loadOntologyFromRdfTextAndTrimFilename(text, filename) {
+		var trimmedFilename = filename.split(".")[0];
+		loadOntologyFromRdfText(text, trimmedFilename);
 	}
 
 	function keepOntologySelectionOpenShortly() {

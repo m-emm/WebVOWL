@@ -26,12 +26,15 @@ module.exports = function () {
 		nodeDegreeFilter = webvowl.modules.nodeDegreeFilter(filterMenu),
 		nodeScalingSwitch = webvowl.modules.nodeScalingSwitch(graph),
 		objectPropertyFilter = webvowl.modules.objectPropertyFilter(),
+		individualsFilter = webvowl.modules.individualsFilter(),		
 		pickAndPin = webvowl.modules.pickAndPin(),
 		selectionDetailDisplayer = webvowl.modules.selectionDetailsDisplayer(sidebar.updateSelectionInformation),
 		statistics = webvowl.modules.statistics(),
 		subclassFilter = webvowl.modules.subclassFilter(),
 		progress=document.getElementById("myProgress"),
 		setOperatorFilter = webvowl.modules.setOperatorFilter();
+	var rdfloader = require("./rdflibutil/rdfloader");
+
 
 	app.initialize = function () {
 		options.graphContainerSelector(GRAPH_SELECTOR);
@@ -42,6 +45,7 @@ module.exports = function () {
 		options.filterModules().push(statistics);
 		options.filterModules().push(datatypeFilter);
 		options.filterModules().push(objectPropertyFilter);
+		options.filterModules().push(individualsFilter);
 		options.filterModules().push(subclassFilter);
 		options.filterModules().push(disjointFilter);
 		options.filterModules().push(setOperatorFilter);
@@ -55,11 +59,11 @@ module.exports = function () {
 
 		exportMenu.setup();
 		gravityMenu.setup();
-		filterMenu.setup(datatypeFilter, objectPropertyFilter, subclassFilter, disjointFilter, setOperatorFilter, nodeDegreeFilter);
+		filterMenu.setup(datatypeFilter, objectPropertyFilter, individualsFilter,subclassFilter, disjointFilter, setOperatorFilter, nodeDegreeFilter);
 		modeMenu.setup(pickAndPin, nodeScalingSwitch, compactNotationSwitch, colorExternalsSwitch);
 		pauseMenu.setup();
 		sidebar.setup();
-		ontologyMenu.setup(loadOntologyFromText);
+		ontologyMenu.setup(loadOntologyFromText,loadOntologyFromRdfText);
 		resetMenu.setup([gravityMenu, filterMenu, modeMenu, focuser, selectionDetailDisplayer, pauseMenu]);
 		searchMenu.setup();
 		navigationMenu.setup();
@@ -101,6 +105,63 @@ module.exports = function () {
 			if (validJSON===false){
 				// the server output is not a valid json file
 				console.log("Retrieved data is not valid! (JSON.parse Error)");
+				ontologyMenu.emptyGraphError();
+				return;
+			}
+
+			if (!filename) {
+				// First look if an ontology title exists, otherwise take the alternative filename
+				var ontologyNames = data.header ? data.header.title : undefined;
+				var ontologyName = languageTools.textInLanguage(ontologyNames);
+
+				if (ontologyName) {
+					filename = ontologyName;
+				} else {
+					filename = alternativeFilename;
+				}
+			}
+		}
+
+		//@WORKAROUND
+		// check if data has classes and properties;
+		var classCount				  = parseInt(data.metrics.classCount);
+		var objectPropertyCount		  = parseInt(data.metrics.objectPropertyCount);
+		var datatypePropertyCount	  = parseInt(data.metrics.datatypePropertyCount);
+
+		if (classCount === 0 && objectPropertyCount===0 && datatypePropertyCount===0 ){
+			// generate message for the user;
+			ontologyMenu.emptyGraphError();
+		}
+
+		exportMenu.setJsonText(jsonText);
+		options.data(data);
+		graph.load();
+		
+		sidebar.updateOntologyInformation(data, statistics);
+		exportMenu.setFilename(filename);
+	}
+	
+	
+	function loadOntologyFromRdfText(jsonText, filename, alternativeFilename) {
+		pauseMenu.reset();
+
+		if (jsonText===undefined && filename===undefined){
+			console.log("Nothing to load");
+			return;
+		}
+	
+		if (jsonText) {
+			// validate JSON FILE
+			var validJSON;
+			try {
+				data =rdfloader.parseRdf(jsonText);
+				validJSON=true;
+			} catch (e){
+				validJSON=false;
+			}
+			if (validJSON===false){
+				// the server output is not a valid json file
+				console.log("Retrieved data is not valid! (RDF.parse Error)");
 				ontologyMenu.emptyGraphError();
 				return;
 			}

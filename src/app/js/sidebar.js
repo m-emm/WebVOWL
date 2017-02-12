@@ -274,6 +274,8 @@ module.exports = function (graph) {
 
 		setIriLabel(d3.select("#propname"), property.labelForCurrentLanguage(), property.iri());
 		d3.select("#typeProp").text(property.type());
+		d3.select("#propId").text(property.id());
+
 
 		if (property.inverse() !== undefined) {
 			d3.select("#inverse").classed("hidden", false);
@@ -388,8 +390,9 @@ module.exports = function (graph) {
 		listNodeArray(equivalentIriSpan, node.equivalents());
 
 		d3.select("#typeNode").text(node.type());
+		d3.select("#classId").text(node.id());
 		listNodeArray(d3.select("#individuals"), node.individuals());
-
+		
 		/* Disjoint stuff. */
 		var disjointNodes = d3.select("#disjointNodes");
 		var disjointNodesParent = d3.select(disjointNodes.node().parentNode);

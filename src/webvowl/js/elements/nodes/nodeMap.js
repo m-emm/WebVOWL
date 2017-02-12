@@ -1,6 +1,7 @@
 var nodes = [];
 nodes.push(require("./implementations/ExternalClass"));
 nodes.push(require("./implementations/OwlClass"));
+nodes.push(require("./implementations/OwlNamedIndividual"));
 nodes.push(require("./implementations/OwlComplementOf"));
 nodes.push(require("./implementations/OwlDeprecatedClass"));
 nodes.push(require("./implementations/OwlDisjointUnionOf"));
