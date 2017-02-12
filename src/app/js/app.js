@@ -8,6 +8,8 @@ module.exports = function () {
 	// Modules for the webvowl app
 		exportMenu = require("./menu/exportMenu")(graph),
 		filterMenu = require("./menu/filterMenu")(graph),
+		saveLoadMenu = require("./menu/saveLoadMenu")(graph),
+
 		gravityMenu = require("./menu/gravityMenu")(graph),
 		modeMenu = require("./menu/modeMenu")(graph),
 		ontologyMenu = require("./menu/ontologyMenu")(graph),
@@ -64,6 +66,7 @@ module.exports = function () {
 		filterMenu.setup(datatypeFilter, objectPropertyFilter, individualsFilter,subclassFilter, disjointFilter, setOperatorFilter, nodeDegreeFilter);
 		modeMenu.setup(pickAndPin, nodeScalingSwitch, compactNotationSwitch, colorExternalsSwitch);
 		pauseMenu.setup();
+		saveLoadMenu.setup();
 		sidebar.setup();
 		ontologyMenu.setup(loadOntologyFromText,loadOntologyFromRdfText);
 		resetMenu.setup([gravityMenu, filterMenu, modeMenu, focuser, selectionDetailDisplayer, pauseMenu]);
@@ -143,6 +146,7 @@ module.exports = function () {
 		
 		sidebar.updateOntologyInformation(data, statistics);
 		exportMenu.setFilename(filename);
+		saveLoadMenu.setFilename(filename);
 	}
 	
 	function removeIri(iri) {
@@ -206,6 +210,7 @@ module.exports = function () {
 		
 		sidebar.updateOntologyInformation(data, statistics);
 		exportMenu.setFilename(filename);
+		saveLoadMenu.setFilename(filename);
 	}
 
 	function adjustSize() {
