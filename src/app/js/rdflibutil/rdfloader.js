@@ -15,7 +15,9 @@ module.exports = {
 	parseRdf : parseRdf
 };
 
-function parseRdf(text) {
+function parseRdf(text,options) {
+	
+	options = options || {};
 
 	var rootUri = /^ *<([^>]+)>/m.exec(text)[1];
 
@@ -24,6 +26,31 @@ function parseRdf(text) {
 	var mimeType = 'text/turtle';
 
 	$rdf.parse(text, store, rootUri, mimeType);
+	
+	
+	if(options.excludeClasses && Array.isArray(options.excludeClasses)) {		
+		var allObjects = {};
+		options.excludeClasses.forEach(function(element){
+			var members = store.findMemberURIs(store.sym(element));
+			Object.assign(allObjects,members);			
+			var subclasses = store.findSubClassesNT(store.sym(element));
+			Object.assign(allObjects,subclasses);
+		});		
+		var matchingStatements = [];
+		_.toPairs(allObjects).forEach(function(element){
+			// clear out all traces of these objects
+			var uri = rdfutil.removeBrackets(element[0]);
+			matchingStatements = matchingStatements.concat(store.statementsMatching(undefined,undefined,store.sym(uri),undefined));
+			matchingStatements = matchingStatements.concat(store.statementsMatching(store.sym(uri),undefined,undefined,undefined));
+		});	
+		matchingStatements.forEach(function(statement){
+			if(store.holds(statement)){
+				store.remove(statement);	
+			}
+		});
+		
+	}
+	
 
 	var classes = rdfutil.classes(store);
 	classes.unshift(owl_thing);
@@ -206,7 +233,7 @@ function parseRdf(text) {
 	vowl.class = [];
 	vowl.classAttribute = [];
 	vowl.propertyAttribute = [];
-	vowl.property = [];
+	vowl.property = [];	
 
 	classes.forEach(function(element) {
 
