@@ -3,7 +3,7 @@
  * @param graph the graph that belongs to these controls
  * @returns {{}}
  */
-module.exports = function (graph) {
+module.exports = function (graph,removeIri) {
 
 	var sidebar = {},
 		languageTools = webvowl.util.languageTools(),
@@ -29,6 +29,13 @@ module.exports = function (graph) {
 		function expandContainers(containers) {
 			containers.classed("hidden", false);
 		}
+		
+		var button = d3.selectAll("#filterClassButton").on("click",function(){
+			console.log("clicked!");
+			if(lastSelectedElement && lastSelectedElement.iri) {
+				removeIri(lastSelectedElement.iri());
+			}
+		});
 
 		var triggers = d3.selectAll(".accordion-trigger");
 

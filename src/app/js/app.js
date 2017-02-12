@@ -15,7 +15,7 @@ module.exports = function () {
 		resetMenu = require("./menu/resetMenu")(graph),
 		searchMenu = require("./menu/searchMenu")(graph),
 		navigationMenu = require("./menu/navigationMenu")(graph),
-		sidebar = require("./sidebar")(graph),
+		sidebar = require("./sidebar")(graph,removeIri),
 	// Graph modules
 		colorExternalsSwitch = webvowl.modules.colorExternalsSwitch(graph),
 		compactNotationSwitch = webvowl.modules.compactNotationSwitch(graph),
@@ -34,6 +34,8 @@ module.exports = function () {
 		progress=document.getElementById("myProgress"),
 		setOperatorFilter = webvowl.modules.setOperatorFilter();
 	var rdfloader = require("./rdflibutil/rdfloader");
+	var lastRdfText;
+	var removedIris = [];
 
 
 	app.initialize = function () {
@@ -84,6 +86,8 @@ module.exports = function () {
 		adjustSize();
 	};
 
+	
+	
 	function loadOntologyFromText(jsonText, filename, alternativeFilename) {
 		pauseMenu.reset();
 
@@ -141,26 +145,31 @@ module.exports = function () {
 		exportMenu.setFilename(filename);
 	}
 	
+	function removeIri(iri) {
+		removedIris.push(iri);
+		loadOntologyFromRdfText(lastRdfText);
+	}
 	
-	function loadOntologyFromRdfText(jsonText, filename, alternativeFilename) {
+	function loadOntologyFromRdfText(rdfText, filename, alternativeFilename) {
 		pauseMenu.reset();
 
-		if (jsonText===undefined && filename===undefined){
+		if (rdfText===undefined && filename===undefined){
 			console.log("Nothing to load");
 			return;
 		}
 	
-		if (jsonText) {
-			// validate JSON FILE
-			var validJSON;
+		if (rdfText) {
+			lastRdfText = rdfText;
+
+			var validRDF;
 			try {
-				data =rdfloader.parseRdf(jsonText);
-				validJSON=true;
+				data =rdfloader.parseRdf(rdfText,{excludeClasses:removedIris});
+				validRDF=true;
 			} catch (e){
 				console.log(e);
-				validJSON=false;
+				validRDF=false;
 			}
-			if (validJSON===false){
+			if (validRDF===false){
 				// the server output is not a valid json file
 				console.log("Retrieved data is not valid! (RDF.parse Error)");
 				ontologyMenu.emptyGraphError();
@@ -190,8 +199,8 @@ module.exports = function () {
 			// generate message for the user;
 			ontologyMenu.emptyGraphError();
 		}
+		
 
-		exportMenu.setJsonText(jsonText);
 		options.data(data);
 		graph.load();
 		
