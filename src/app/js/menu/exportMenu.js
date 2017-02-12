@@ -18,7 +18,12 @@ module.exports = function (graph) {
 			.on("click", exportSvg);
 		exportJsonButton = d3.select("#exportJson")
 			.on("click", exportJson);
+		exportJsonButton = d3.select("#savePositions")
+		.on("click", savePositions);
+		exportJsonButton = d3.select("#loadPositions")
+		.on("click", loadPositions);
 
+		
 		var menuEntry= d3.select("#export");
 		menuEntry.on("mouseover",function(){
 			var searchMenu=graph.options().searchMenu();
@@ -34,6 +39,30 @@ module.exports = function (graph) {
 		exportableJsonText = jsonText;
 	};
 
+	function savePositions() {
+		if (typeof(Storage) !== "undefined") {
+			var nodePositions = graph.nodePositions();
+			localStorage.setItem(exportFilename, JSON.stringify(nodePositions));
+		} else {
+		    // Sorry! No Web Storage support..
+		}
+	}
+	
+	function loadPositions() {
+		if (typeof(Storage) !== "undefined") {
+			var nodePositionsText = localStorage.getItem(exportFilename);
+			if(nodePositionsText) {
+			var nodePositions = JSON.parse(nodePositionsText);
+			if(nodePositions) {
+				graph.updateNodePositions(nodePositions);
+			}
+			}
+			
+		} else {
+		    // Sorry! No Web Storage support..
+		}
+	}
+	
 	function exportSvg() {
 		// Get the d3js SVG element
 		var graphSvg = d3.select(graph.options().graphContainerSelector()).select("svg"),

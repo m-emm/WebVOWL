@@ -796,6 +796,50 @@ module.exports = function (graphContainerSelector) {
 		return graph;
 	};
 
+	graph.nodePositions = function() {
+		var nodePositions = {};
+		force.nodes().forEach(function(element){
+			if(element.iri && element.type) {
+				var typeObject = nodePositions[element.type()];
+				if(!typeObject) {
+					typeObject = {};
+					nodePositions[element.type()] = typeObject;
+				}
+				var posObject =  {x:element.x,y:element.y};
+				if(element.pinned) {
+					posObject.pinned = element.pinned();
+				}
+				typeObject[element.iri()] = posObject;
+			}
+		});
+		return nodePositions;
+	}
+	
+	graph.updateNodePositions = function(nodePositions) {		
+		force.nodes().forEach(function(element){
+			if(element.iri && element.type) {
+				var typeObject = nodePositions[element.type()];
+				if(typeObject) {
+					var posObject=typeObject[element.iri()];
+					if(posObject) {
+						element.x = posObject.x;
+						element.y = posObject.y;
+						element.px = posObject.x;
+						element.py = posObject.y;
+						if(element.pinned) {
+							element.pinned(posObject.pinned);
+						}
+						element.postDrawActions();
+					}
+				}
+				 
+			}
+			// element.frozen(true);
+		});
+		return nodePositions;
+	}
+	
+	
 
 	return graph;
 };
