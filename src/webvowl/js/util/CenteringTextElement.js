@@ -14,7 +14,7 @@ CenteringTextElement.prototype.addText = function (text, prefix, suffix) {
 	if (text) {
 		if(text.length > maxLineLenght ) {
 			var splitText = (text+suffix).split(/(?=[A-Z ])/);
-			var curLine = prefix;
+			var curLine = prefix || '';
 			splitText.forEach(function(element){
 				var lineCandidate = curLine + element;		
 				if(lineCandidate.length < maxLineLenght) {
