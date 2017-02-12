@@ -1,6 +1,6 @@
 var textTools = require("./textTools")();
 var AbstractTextElement = require("./AbstractTextElement");
-
+const maxLineLenght = 11;
 module.exports = CenteringTextElement;
 function CenteringTextElement(container, backgroundColor) {
 	AbstractTextElement.apply(this, arguments);
@@ -10,8 +10,27 @@ CenteringTextElement.prototype = Object.create(AbstractTextElement.prototype);
 CenteringTextElement.prototype.constructor = CenteringTextElement;
 
 CenteringTextElement.prototype.addText = function (text, prefix, suffix) {
+	var that = this;
 	if (text) {
-		this.addTextline(text, this.CSS_CLASSES.default, prefix, suffix);
+		if(text.length > maxLineLenght ) {
+			var splitText = (text+suffix).split(/(?=[A-Z ])/);
+			var curLine = prefix;
+			splitText.forEach(function(element){
+				var lineCandidate = curLine + element;		
+				if(lineCandidate.length < maxLineLenght) {
+					curLine = lineCandidate;
+				} else {
+					that.addTextline(curLine, that.CSS_CLASSES.default, '', '');
+					curLine = element;
+				}
+			});
+			if(curLine.length > 0) {
+				that.addTextline(curLine, that.CSS_CLASSES.default, '', '');
+			}
+			
+		} else {
+			this.addTextline(text, this.CSS_CLASSES.default, prefix, suffix);
+		}
 	}
 };
 
