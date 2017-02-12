@@ -2,7 +2,6 @@ var util = require('util');
 var _ = require('lodash');
 
 var rdf_type = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-var rdf_individual = 'http://www.w3.org/2002/07/owl#NamedIndividual';
 var rdf_subProperty = 'http://www.w3.org/2000/01/rdf-schema#subPropertyOf';
 var rdf_range = 'http://www.w3.org/2000/01/rdf-schema#range';
 var rdf_domain = 'http://www.w3.org/2000/01/rdf-schema#domain';
@@ -13,6 +12,7 @@ var owl_inverse = 'http://www.w3.org/2002/07/owl#inverseOf';
 var owl_symmetric = 'http://www.w3.org/2002/07/owl#SymmetricProperty';
 var owl_objectProperty = 'http://www.w3.org/2002/07/owl#ObjectProperty';
 var owl_equivalentClass = 'http://www.w3.org/2002/07/owl#equivalentClass';
+var owl_namedIndividual= 'http://www.w3.org/2002/07/owl#NamedIndividual';
 
 function isSymmetric(store, subject) {
 	return store.holds(subject, store.sym(rdf_type), store.sym(owl_symmetric));
@@ -89,7 +89,7 @@ module.exports = {
 	getReadableRepresentation : getReadableRepresentation,
 
 	isIndividual : function(store, subject) {
-		return store.holds(subject, store.sym(rdf_type), store.sym(rdf_individual));
+		return store.holds(subject, store.sym(rdf_type), store.sym(owl_namedIndividual));
 	},
 
 	isClass : function(store, subject) {
@@ -230,7 +230,7 @@ module.exports = {
 		});
 	},
 	individuals : function(store) {
-		var statements = store.match(undefined, store.sym(rdf_type), store.sym(owl_named_individual));
+		var statements = store.match(undefined, store.sym(rdf_type), store.sym(owl_namedIndividual));
 		return _.map(statements, function(statement) {
 			return statement.subject.value;
 		});
@@ -273,7 +273,7 @@ module.exports = {
 		var statements = store.match(undefined, store.sym(rdf_type), store.sym(targetName));
 		var retval = [];
 		statements.forEach(function(element) {
-			if (store.holds(element.subject, store.sym(rdf_type), store.sym(owl_named_individual))) {
+			if (store.holds(element.subject, store.sym(rdf_type), store.sym(owl_namedIndividual))) {
 				retval.push(element.subject.value);
 			}
 		});

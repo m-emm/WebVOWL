@@ -157,6 +157,7 @@ module.exports = function () {
 				data =rdfloader.parseRdf(jsonText);
 				validJSON=true;
 			} catch (e){
+				console.log(e);
 				validJSON=false;
 			}
 			if (validJSON===false){
